@@ -43,7 +43,7 @@ function Hero({ onBookClick, onMediaKitClick }) {
                     </div>
 
                     {/* CTAs - Center */}
-                    <div className="lg:col-span-6 lg:col-start-4 lg:row-start-3 flex flex-col sm:flex-row gap-4 mt-8 lg:mt-12 animate-fade-up" style={{ animationDelay: '300ms' }}>
+                    <div className="lg:col-span-6 lg:col-start-4 lg:row-start-3 justify-self-center flex flex-col sm:flex-row gap-4 mt-8 lg:mt-12 animate-fade-up" style={{ animationDelay: '300ms' }}>
                         <Button
                             variant="primary"
                             size="lg"
