@@ -1,6 +1,7 @@
 import Hero from '../components/sections/Hero'
 import About from '../components/sections/About'
 import Media from '../components/sections/Media'
+import Gallery from '../components/sections/Gallery'
 
 function Home() {
     const handleBookClick = () => {
@@ -21,6 +22,7 @@ function Home() {
             />
             <About />
             <Media />
+            <Gallery />
             {/* Other sections will be added below */}
         </div>
     )
