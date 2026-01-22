@@ -1,44 +1,72 @@
-// Generate mailto link for booking email
-export function generateBookingEmail(bookingData) {
+// Send booking email via Web3Forms API
+export async function sendBookingEmail(bookingData) {
     const { fullName, email, instagram, eventType, city, venue, date, budgetRange, message } = bookingData
 
-    const subject = `Booking Inquiry: NOVA - ${eventType} on ${date}`
+    // Format the email body
+    const emailBody = `
+BOOKING INQUIRY FROM ${fullName.toUpperCase()}
 
-    const body = `
-Hi NOVA,
-
-I would like to inquire about booking you for an upcoming event.
-
-BOOKING DETAILS:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+CONTACT INFORMATION:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Name: ${fullName}
 Email: ${email}
-${instagram ? `Instagram: @${instagram}` : ''}
+${instagram ? `Instagram: @${instagram}` : 'Instagram: Not provided'}
 
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+EVENT DETAILS:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Event Type: ${eventType}
 Date: ${date}
 Location: ${city}${venue ? ` - ${venue}` : ''}
 Budget Range: ${budgetRange}
 
-MESSAGE:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+CLIENT MESSAGE:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ${message}
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Looking forward to hearing from you!
-
-Best regards,
-${fullName}
+This booking inquiry was submitted via the NOVA DJ Demo website.
+Please respond to ${email} to confirm availability.
   `.trim()
 
-    // Encode for mailto
-    const mailtoLink = `mailto:booking@novadj-demo.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+    try {
+        const response = await fetch('https://api.web3forms.com/submit', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                access_key: 'YOUR_WEB3FORMS_ACCESS_KEY', // Replace with your actual key from https://web3forms.com
+                subject: `🎵 Booking Inquiry: ${eventType} on ${date}`,
+                from_name: fullName,
+                from_email: email,
+                to_email: 'booking@novadj-demo.com', // Replace with DJ's actual email
+                message: emailBody,
+                // Additional fields for Web3Forms dashboard
+                'Event Type': eventType,
+                'Event Date': date,
+                'Location': `${city}${venue ? ` - ${venue}` : ''}`,
+                'Budget Range': budgetRange,
+                'Instagram': instagram || 'Not provided'
+            })
+        })
 
-    return mailtoLink
-}
+        const result = await response.json()
 
-// Open email client with booking details
-export function openBookingEmail(bookingData) {
-    const mailtoLink = generateBookingEmail(bookingData)
-    window.location.href = mailtoLink
+        if (result.success) {
+            return { success: true, message: 'Email sent successfully!' }
+        } else {
+            throw new Error(result.message || 'Failed to send email')
+        }
+    } catch (error) {
+        console.error('Email send error:', error)
+        return {
+            success: false,
+            message: 'Failed to send email. Please try again or contact us directly.'
+        }
+    }
 }

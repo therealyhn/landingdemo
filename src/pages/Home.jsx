@@ -3,7 +3,9 @@ import Hero from '../components/sections/Hero'
 import About from '../components/sections/About'
 import Media from '../components/sections/Media'
 import Gallery from '../components/sections/Gallery'
+import Proof from '../components/sections/Proof'
 import BookingModal from '../components/shared/BookingModal'
+import StickyCTA from '../components/shared/StickyCTA'
 
 function Home() {
     const [isBookingOpen, setIsBookingOpen] = useState(false)
@@ -26,7 +28,9 @@ function Home() {
             <About />
             <Media />
             <Gallery />
-            {/* Other sections will be added below */}
+            <Proof />
+
+            <StickyCTA onClick={handleBookClick} />
 
             <BookingModal
                 isOpen={isBookingOpen}

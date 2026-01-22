@@ -6,11 +6,12 @@ import Select from '../ui/Select'
 import Button from '../ui/Button'
 import { validateBookingForm } from '../../lib/validation'
 import { downloadCalendarFile } from '../../lib/calendar'
-import { openBookingEmail } from '../../lib/email'
+import { sendBookingEmail } from '../../lib/email'
 
 function BookingModal({ isOpen, onClose }) {
     const [step, setStep] = useState('form') // 'form' or 'success'
     const [errors, setErrors] = useState({})
+    const [emailStatus, setEmailStatus] = useState({ loading: false, sent: false, error: null })
     const [formData, setFormData] = useState({
         fullName: '',
         email: '',
@@ -67,8 +68,16 @@ function BookingModal({ isOpen, onClose }) {
         downloadCalendarFile(formData)
     }
 
-    const handleSendEmail = () => {
-        openBookingEmail(formData)
+    const handleSendEmail = async () => {
+        setEmailStatus({ loading: true, sent: false, error: null })
+
+        const result = await sendBookingEmail(formData)
+
+        if (result.success) {
+            setEmailStatus({ loading: false, sent: true, error: null })
+        } else {
+            setEmailStatus({ loading: false, sent: false, error: result.message })
+        }
     }
 
     const handleDownloadMediaKit = () => {
@@ -91,6 +100,7 @@ function BookingModal({ isOpen, onClose }) {
             message: '',
         })
         setErrors({})
+        setEmailStatus({ loading: false, sent: false, error: null })
         onClose()
     }
 
@@ -258,20 +268,45 @@ function BookingModal({ isOpen, onClose }) {
 
                         <button
                             onClick={handleSendEmail}
-                            className="w-full p-4 bg-surface-highlight border border-border-light rounded-surface hover:border-accent transition-colors text-left group"
+                            disabled={emailStatus.loading || emailStatus.sent}
+                            className={`w-full p-4 bg-surface-highlight border rounded-surface transition-colors text-left group ${emailStatus.sent
+                                    ? 'border-accent bg-accent/10'
+                                    : emailStatus.error
+                                        ? 'border-red-500/30'
+                                        : 'border-border-light hover:border-accent'
+                                } ${emailStatus.loading || emailStatus.sent ? 'opacity-75 cursor-not-allowed' : ''}`}
                         >
                             <div className="flex items-center gap-4">
-                                <div className="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center flex-shrink-0">
-                                    <svg className="w-6 h-6 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                                    </svg>
+                                <div className={`w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 ${emailStatus.sent ? 'bg-accent/30' : 'bg-accent/20'
+                                    }`}>
+                                    {emailStatus.loading ? (
+                                        <svg className="w-6 h-6 text-accent animate-spin" fill="none" viewBox="0 0 24 24">
+                                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                        </svg>
+                                    ) : emailStatus.sent ? (
+                                        <svg className="w-6 h-6 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                        </svg>
+                                    ) : (
+                                        <svg className="w-6 h-6 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                        </svg>
+                                    )}
                                 </div>
-                                <div>
-                                    <h4 className="text-body font-medium text-text group-hover:text-accent transition-colors">
-                                        Send Booking Email
+                                <div className="flex-1">
+                                    <h4 className={`text-body font-medium transition-colors ${emailStatus.sent ? 'text-accent' : 'text-text group-hover:text-accent'
+                                        }`}>
+                                        {emailStatus.loading ? 'Sending Email...' : emailStatus.sent ? 'Email Sent!' : 'Send Booking Email'}
                                     </h4>
                                     <p className="text-label text-muted">
-                                        Open email with booking details
+                                        {emailStatus.loading
+                                            ? 'Please wait...'
+                                            : emailStatus.sent
+                                                ? 'DJ will receive your booking details'
+                                                : emailStatus.error
+                                                    ? emailStatus.error
+                                                    : 'Automatically send to DJ\'s inbox'}
                                     </p>
                                 </div>
                             </div>
