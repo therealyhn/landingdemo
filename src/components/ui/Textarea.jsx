@@ -1,12 +1,12 @@
-function Input({
+function Textarea({
     label,
     id,
-    type = 'text',
     value,
     onChange,
     placeholder,
     required = false,
     error,
+    rows = 4,
     className = '',
     ...props
 }) {
@@ -20,14 +20,14 @@ function Input({
                     {label} {required && <span className="text-accent">*</span>}
                 </label>
             )}
-            <input
+            <textarea
                 id={id}
-                type={type}
                 value={value}
                 onChange={onChange}
                 placeholder={placeholder}
                 required={required}
-                className={`w-full px-4 py-3 bg-surface border border-border-light rounded-sm text-text placeholder:text-muted focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-colors ${error ? 'border-red-500' : ''} ${className}`}
+                rows={rows}
+                className={`w-full px-4 py-3 bg-surface border border-border-light rounded-sm text-text placeholder:text-muted focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-colors resize-none ${error ? 'border-red-500' : ''} ${className}`}
                 {...props}
             />
             {error && (
@@ -37,4 +37,4 @@ function Input({
     )
 }
 
-export default Input
+export default Textarea

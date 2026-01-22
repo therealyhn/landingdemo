@@ -1,57 +1,74 @@
-const sizeClasses = {
-  sm: "max-w-md",
-  md: "max-w-2xl",
-  lg: "max-w-4xl",
-}
+import { useEffect } from 'react'
 
-function Modal({
-  open,
-  onClose,
-  title,
-  labelledBy,
-  size = "lg",
-  children,
-}) {
-  if (!open) return null
+function Modal({ isOpen, onClose, children, title, size = 'md' }) {
+    useEffect(() => {
+        if (isOpen) {
+            document.body.style.overflow = 'hidden'
+        } else {
+            document.body.style.overflow = 'unset'
+        }
 
-  const titleId = labelledBy || (title ? "modal-title" : undefined)
+        return () => {
+            document.body.style.overflow = 'unset'
+        }
+    }, [isOpen])
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center px-16 py-24">
-      <div
-        className="absolute inset-0 bg-bg/80 backdrop-blur-sm"
-        aria-hidden="true"
-        onClick={onClose}
-      />
-      <div
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby={titleId}
-        className={`relative z-10 w-full ${sizeClasses[size] || sizeClasses.lg} rounded-surface border border-border bg-surface shadow-soft`}
-      >
-        {(title || onClose) && (
-          <div className="flex items-center justify-between border-b border-border px-24 py-16">
-            {title && (
-              <h3 id={titleId} className="text-h3">
-                {title}
-              </h3>
-            )}
-            {onClose && (
-              <button
-                type="button"
-                onClick={onClose}
-                className="text-label font-medium uppercase text-muted transition-colors duration-300 hover:text-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/70 focus-visible:ring-offset-2 focus-visible:ring-offset-bg"
-                aria-label="Close dialog"
-              >
-                Close
-              </button>
-            )}
-          </div>
-        )}
-        <div className="px-24 py-24">{children}</div>
-      </div>
-    </div>
-  )
+    useEffect(() => {
+        const handleEscape = (e) => {
+            if (e.key === 'Escape' && isOpen) {
+                onClose()
+            }
+        }
+
+        window.addEventListener('keydown', handleEscape)
+        return () => window.removeEventListener('keydown', handleEscape)
+    }, [isOpen, onClose])
+
+    if (!isOpen) return null
+
+    const sizes = {
+        sm: 'max-w-md',
+        md: 'max-w-2xl',
+        lg: 'max-w-4xl',
+        xl: 'max-w-6xl',
+        full: 'max-w-[95vw]',
+    }
+
+    return (
+        <div
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-bg/90 backdrop-blur-sm animate-reveal"
+            onClick={onClose}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby={title ? 'modal-title' : undefined}
+        >
+            <div
+                className={`relative w-full ${sizes[size]} bg-surface border border-border-light rounded-surface shadow-soft animate-fade-up`}
+                onClick={(e) => e.stopPropagation()}
+            >
+                {title && (
+                    <div className="flex items-center justify-between p-6 border-b border-border">
+                        <h2 id="modal-title" className="text-h3 font-display text-text">
+                            {title}
+                        </h2>
+                        <button
+                            onClick={onClose}
+                            className="text-muted hover:text-text transition-colors focus:outline-none focus:ring-2 focus:ring-accent rounded-sm p-1"
+                            aria-label="Close modal"
+                        >
+                            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
+                )}
+
+                <div className="p-6 max-h-[80vh] overflow-y-auto">
+                    {children}
+                </div>
+            </div>
+        </div>
+    )
 }
 
 export default Modal

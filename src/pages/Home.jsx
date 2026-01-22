@@ -1,18 +1,25 @@
-import SiteShell from "../components/layout/SiteShell.jsx"
-import TopBar from "../components/layout/TopBar.jsx"
-import Hero from "../sections/Hero.jsx"
-import About from "../sections/About.jsx"
+import Hero from '../components/sections/Hero'
 
 function Home() {
-  return (
-    <SiteShell>
-      <TopBar />
-      <main id="main" className="flex-1">
-        <Hero />
-        <About />
-      </main>
-    </SiteShell>
-  )
+    const handleBookClick = () => {
+        // Will be connected to booking modal in Section 6
+        console.log('Book clicked')
+    }
+
+    const handleMediaKitClick = () => {
+        // Will be connected to media kit download in Section 6
+        console.log('Media Kit clicked')
+    }
+
+    return (
+        <div className="min-h-screen bg-bg text-text">
+            <Hero
+                onBookClick={handleBookClick}
+                onMediaKitClick={handleMediaKitClick}
+            />
+            {/* Other sections will be added below */}
+        </div>
+    )
 }
 
 export default Home
