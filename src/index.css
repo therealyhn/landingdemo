@@ -1,3 +1,49 @@
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
+
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600&display=swap");
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  html {
+    @apply font-body;
+  }
+
+  body {
+    @apply bg-bg text-text text-body antialiased;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply font-display text-text;
+  }
+
+  h1 {
+    @apply text-h1;
+  }
+
+  h2 {
+    @apply text-h2;
+  }
+
+  h3 {
+    @apply text-h3;
+  }
+
+  p {
+    @apply text-body text-muted;
+  }
+
+  a {
+    @apply text-text transition-colors duration-300 hover:text-accent;
+  }
+
+  ::selection {
+    @apply bg-accent text-bg;
+  }
+}
