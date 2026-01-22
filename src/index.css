@@ -9,7 +9,8 @@
 {
   *
   {
-    @apply antialiased;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   html
@@ -19,7 +20,9 @@
 
   body
   {
-    @apply bg-bg text-text font-body;
+    background-color: #0c0d0f;
+    color: #f2f4f8;
+    font-family: "IBM Plex Sans", sans-serif;
   }
 
   h1,
@@ -29,6 +32,6 @@
   h5,
   h6
   {
-    @apply font-display;
+    font-family: "Space Grotesk", sans-serif;
   }
 }

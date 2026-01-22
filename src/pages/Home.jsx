@@ -1,4 +1,6 @@
 import Hero from '../components/sections/Hero'
+import About from '../components/sections/About'
+import Media from '../components/sections/Media'
 
 function Home() {
     const handleBookClick = () => {
@@ -17,6 +19,8 @@ function Home() {
                 onBookClick={handleBookClick}
                 onMediaKitClick={handleMediaKitClick}
             />
+            <About />
+            <Media />
             {/* Other sections will be added below */}
         </div>
     )
