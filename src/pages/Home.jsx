@@ -6,17 +6,20 @@ import Gallery from '../components/sections/Gallery'
 import Proof from '../components/sections/Proof'
 import BookingModal from '../components/shared/BookingModal'
 import StickyCTA from '../components/shared/StickyCTA'
+import MediaKitModal from '../components/shared/MediaKitModal'
 
 function Home() {
     const [isBookingOpen, setIsBookingOpen] = useState(false)
+    const [isMediaKitOpen, setIsMediaKitOpen] = useState(false)
 
     const handleBookClick = () => {
         setIsBookingOpen(true)
     }
 
     const handleMediaKitClick = () => {
-        // Placeholder - would link to actual media kit PDF
-        alert('Media kit download would trigger here')
+        setIsMediaKitOpen(true)
+        // Also close booking modal if it's open (e.g. from success screen)
+        setIsBookingOpen(false)
     }
 
     return (
@@ -35,6 +38,12 @@ function Home() {
             <BookingModal
                 isOpen={isBookingOpen}
                 onClose={() => setIsBookingOpen(false)}
+                onMediaKitClick={handleMediaKitClick}
+            />
+
+            <MediaKitModal
+                isOpen={isMediaKitOpen}
+                onClose={() => setIsMediaKitOpen(false)}
             />
         </div>
     )

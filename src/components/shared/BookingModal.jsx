@@ -8,7 +8,7 @@ import { validateBookingForm } from '../../lib/validation'
 import { downloadCalendarFile } from '../../lib/calendar'
 import { sendBookingEmail } from '../../lib/email'
 
-function BookingModal({ isOpen, onClose }) {
+function BookingModal({ isOpen, onClose, onMediaKitClick }) {
     const [step, setStep] = useState('form') // 'form' or 'success'
     const [errors, setErrors] = useState({})
     const [emailStatus, setEmailStatus] = useState({ loading: false, sent: false, error: null })
@@ -81,8 +81,12 @@ function BookingModal({ isOpen, onClose }) {
     }
 
     const handleDownloadMediaKit = () => {
-        // Placeholder - would link to actual media kit PDF
-        alert('Media kit download would trigger here')
+        if (onMediaKitClick) {
+            onMediaKitClick()
+        } else {
+            // Fallback
+            alert('Media kit download would trigger here')
+        }
     }
 
     const handleClose = () => {
@@ -270,10 +274,10 @@ function BookingModal({ isOpen, onClose }) {
                             onClick={handleSendEmail}
                             disabled={emailStatus.loading || emailStatus.sent}
                             className={`w-full p-4 bg-surface-highlight border rounded-surface transition-colors text-left group ${emailStatus.sent
-                                    ? 'border-accent bg-accent/10'
-                                    : emailStatus.error
-                                        ? 'border-red-500/30'
-                                        : 'border-border-light hover:border-accent'
+                                ? 'border-accent bg-accent/10'
+                                : emailStatus.error
+                                    ? 'border-red-500/30'
+                                    : 'border-border-light hover:border-accent'
                                 } ${emailStatus.loading || emailStatus.sent ? 'opacity-75 cursor-not-allowed' : ''}`}
                         >
                             <div className="flex items-center gap-4">
