@@ -9,7 +9,7 @@ function About() {
     ]
 
     return (
-        <section className="relative py-24 lg:py-32 bg-surface border-t border-border">
+        <section id="about" className="relative py-24 lg:py-32 bg-surface border-t border-border">
             <Container>
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
                     {/* Bio Text - Left */}

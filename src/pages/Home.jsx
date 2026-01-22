@@ -7,6 +7,7 @@ import Proof from '../components/sections/Proof'
 import BookingModal from '../components/shared/BookingModal'
 import StickyCTA from '../components/shared/StickyCTA'
 import MediaKitModal from '../components/shared/MediaKitModal'
+import Navbar from '../components/layout/Navbar'
 
 function Home() {
     const [isBookingOpen, setIsBookingOpen] = useState(false)
@@ -24,6 +25,10 @@ function Home() {
 
     return (
         <div className="min-h-screen bg-bg text-text">
+            <Navbar
+                onBookClick={handleBookClick}
+                onMediaKitClick={handleMediaKitClick}
+            />
             <Hero
                 onBookClick={handleBookClick}
                 onMediaKitClick={handleMediaKitClick}

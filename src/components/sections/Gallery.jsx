@@ -50,7 +50,7 @@ function Gallery() {
     }
 
     return (
-        <section className="relative py-24 lg:py-32 bg-surface border-t border-border">
+        <section id="gallery" className="relative py-24 lg:py-32 bg-surface border-y border-border">
             <Container>
                 {/* Section Header */}
                 <div className="text-center mb-12">
@@ -69,8 +69,8 @@ function Gallery() {
                             key={filter.id}
                             onClick={() => setActiveFilter(filter.id)}
                             className={`px-6 py-3 rounded-chip text-label uppercase font-medium transition-all duration-300 ${activeFilter === filter.id
-                                    ? 'bg-accent text-bg shadow-neon'
-                                    : 'bg-surface-highlight border border-border-light text-muted hover:border-accent hover:text-text'
+                                ? 'bg-accent text-bg shadow-neon'
+                                : 'bg-surface-highlight border border-border-light text-muted hover:border-accent hover:text-text'
                                 }`}
                         >
                             {filter.label}

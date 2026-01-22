@@ -29,7 +29,7 @@ function Media() {
     }
 
     return (
-        <section className="relative py-24 lg:py-32 bg-bg">
+        <section id="media" className="relative py-24 lg:py-32 bg-bg">
             <Container>
                 {/* Section Header */}
                 <div className="text-center mb-12">
@@ -48,8 +48,8 @@ function Media() {
                             key={tab.id}
                             onClick={() => setActiveTab(tab.id)}
                             className={`px-6 py-3 rounded-chip text-label uppercase font-medium transition-all duration-300 ${activeTab === tab.id
-                                    ? 'bg-accent text-bg shadow-neon'
-                                    : 'bg-surface border border-border-light text-muted hover:border-accent hover:text-text'
+                                ? 'bg-accent text-bg shadow-neon'
+                                : 'bg-surface border border-border-light text-muted hover:border-accent hover:text-text'
                                 }`}
                         >
                             {tab.label}
