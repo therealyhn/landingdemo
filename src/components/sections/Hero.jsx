@@ -64,11 +64,11 @@ function Hero({ onBookClick, onMediaKitClick }) {
                 </div>
 
                 {/* Scroll indicator */}
-                <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-pulse">
+                {/* <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-pulse">
                     <div className="w-6 h-10 border-2 border-border-light rounded-chip flex items-start justify-center p-2">
                         <div className="w-1 h-2 bg-accent rounded-full animate-bounce" />
                     </div>
-                </div>
+                </div> */}
             </Container>
         </section>
     )

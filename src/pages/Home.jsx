@@ -1,17 +1,20 @@
+import { useState } from 'react'
 import Hero from '../components/sections/Hero'
 import About from '../components/sections/About'
 import Media from '../components/sections/Media'
 import Gallery from '../components/sections/Gallery'
+import BookingModal from '../components/shared/BookingModal'
 
 function Home() {
+    const [isBookingOpen, setIsBookingOpen] = useState(false)
+
     const handleBookClick = () => {
-        // Will be connected to booking modal in Section 6
-        console.log('Book clicked')
+        setIsBookingOpen(true)
     }
 
     const handleMediaKitClick = () => {
-        // Will be connected to media kit download in Section 6
-        console.log('Media Kit clicked')
+        // Placeholder - would link to actual media kit PDF
+        alert('Media kit download would trigger here')
     }
 
     return (
@@ -24,6 +27,11 @@ function Home() {
             <Media />
             <Gallery />
             {/* Other sections will be added below */}
+
+            <BookingModal
+                isOpen={isBookingOpen}
+                onClose={() => setIsBookingOpen(false)}
+            />
         </div>
     )
 }
