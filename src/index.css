@@ -10,40 +10,60 @@
   }
 
   html {
-    @apply font-body;
+    font-family: "IBM Plex Sans", sans-serif;
   }
 
   body {
-    @apply bg-bg text-text text-body antialiased;
+    background-color: #0c0d0f;
+    color: #f2f4f8;
+    font-size: 16px;
+    line-height: 24px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   h1,
   h2,
   h3 {
-    @apply font-display text-text;
+    font-family: "Space Grotesk", sans-serif;
+    color: #f2f4f8;
   }
 
   h1 {
-    @apply text-h1;
+    font-size: 60px;
+    line-height: 64px;
+    letter-spacing: -0.02em;
   }
 
   h2 {
-    @apply text-h2;
+    font-size: 36px;
+    line-height: 40px;
+    letter-spacing: -0.01em;
   }
 
   h3 {
-    @apply text-h3;
+    font-size: 24px;
+    line-height: 28px;
+    letter-spacing: -0.01em;
   }
 
   p {
-    @apply text-body text-muted;
+    font-size: 16px;
+    line-height: 24px;
+    color: #a9b0bb;
   }
 
   a {
-    @apply text-text transition-colors duration-300 hover:text-accent;
+    color: #f2f4f8;
+    transition: color 300ms ease;
+  }
+
+  a:hover {
+    color: #c8ff2e;
   }
 
   ::selection {
-    @apply bg-accent text-bg;
+    background-color: #c8ff2e;
+    color: #0c0d0f;
   }
 }
